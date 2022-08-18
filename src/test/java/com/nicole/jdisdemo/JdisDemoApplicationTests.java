@@ -47,6 +47,9 @@ public class JdisDemoApplicationTests {
         //取值
         List<String> userlist = jedis.lrange("userlist",0,-1);
         System.out.println("用户列表：" + userlist);
+        if (null != jedis){
+            jedis.close();
+        }
     }
 
 }
