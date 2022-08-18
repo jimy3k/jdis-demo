@@ -66,8 +66,8 @@ public class JdisDemoApplicationTests {
         jedis.select(1);
 
         // 测试Redis 心跳连接
-        String pong = "";
         int i=0;
+        String pong = "";
         while ( i<=3 ){
             pong += jedis.ping() + "! ";
             i++;
