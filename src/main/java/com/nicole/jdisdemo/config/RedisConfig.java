@@ -1,6 +1,7 @@
 package com.nicole.jdisdemo.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -19,7 +20,7 @@ public class RedisConfig {
     private Integer port;
     @Value("${spring.redis.password}")
     private String password;
-    @Value("${spring.redis.timeout}")
+    @Value("${spring.redis.connect-timeout}")
     private String timeout;
     @Value("${spring.redis.jedis.pool.max-active}")
     private Integer maxActive;
@@ -30,7 +31,7 @@ public class RedisConfig {
     @Value("${spring.redis.jedis.pool.min-idle}")
     private Integer minIdle;
 
-    @bean
+    @Bean
     public JedisPool jedisPool(){
         JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
         jedisPoolConfig.setMaxTotal(maxActive);
@@ -38,8 +39,7 @@ public class RedisConfig {
         jedisPoolConfig.setMinIdle(minIdle);
         jedisPoolConfig.setMaxWaitMillis(Long.parseLong(maxWait.substring(0,maxWait.length()-2)));
 
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig,host,port,,password);
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig,host,port,Integer.parseInt(timeout.substring(0,timeout.length()-2)),password);
         return jedisPool;
     }
-
 }

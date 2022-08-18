@@ -1,7 +1,12 @@
 package com.nicole.jdisdemo;
 
-import org.junit.jupiter.api.Test;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -9,7 +14,24 @@ import redis.clients.jedis.JedisPoolConfig;
 import java.util.List;
 
 @SpringBootTest
+@RunWith(SpringRunner.class)   //解决不能 @Autowired 自动注入的问题
 public class JdisDemoApplicationTests {
+
+    @Autowired
+    private  JedisPool jedisPool;
+    private Jedis jedis;
+
+    @Before
+    public void init(){
+        jedis = jedisPool.getResource();
+    }
+
+    @After
+    public void close(){
+        if (null != jedis){
+            jedis.close();
+        }
+    }
 
     @Test
     public void init01() {
@@ -22,8 +44,8 @@ public class JdisDemoApplicationTests {
         jedis.select(1);
 
         // 测试Redis 心跳连接
-        String pong = "";
         int i=0;
+        String pong = "";
         while ( i<=3 ){
             pong += jedis.ping() + "! ";
             i++;
@@ -97,6 +119,46 @@ public class JdisDemoApplicationTests {
         if (null != jedis){
             jedis.close();
         }
+    }
 
+    /**
+     *
+     *  使用配置Jedis类 单元测试
+     *
+     **/
+    @Test
+    public void init03(){
+        //选择操作的库
+        jedis.select(1);
+
+        // 测试Redis 心跳连接
+        int i = 0;
+        String pong = "";
+        while ( i<=3 ){
+            pong += jedis.ping() + "! ";
+            i++;
+        }
+
+        System.out.println("测试Redis服务器心跳中..... " + pong);
+
+        //设置键，值
+        jedis.set("name","jimy3k");
+        jedis.set("age","33");
+
+        //取值
+        String name = jedis.get("name");
+        int age = Integer.parseInt(jedis.get("age"));
+        System.out.println("姓名：" + name);
+        System.out.println("年龄：" + age);
+
+        //设置List 键，值
+        Long len = jedis.llen("userlist");
+        if (len <= 0) {
+            jedis.lpush("userlist","jimy","jimy3k","zhangsan","lisi","wangwu");
+        }
+
+        //取值
+        List<String> userlist = jedis.lrange("userlist",0,-1);
+        System.out.println("用户列表：" + userlist);
     }
 }
