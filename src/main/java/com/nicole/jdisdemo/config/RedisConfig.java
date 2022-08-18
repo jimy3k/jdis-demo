@@ -39,7 +39,7 @@ public class RedisConfig {
         jedisPoolConfig.setMinIdle(minIdle);
         jedisPoolConfig.setMaxWaitMillis(Long.parseLong(maxWait.substring(0,maxWait.length()-2)));
 
-        JedisPool jedisPool = new JedisPool(jedisPoolConfig,host,port,Integer.parseInt(timeout.substring(0,timeout.length()-2)),password);
+        JedisPool jedisPool = new JedisPool(jedisPoolConfig, host, port, Integer.parseInt(timeout.substring(0, timeout.length() - 2)), password);
         return jedisPool;
     }
 }
