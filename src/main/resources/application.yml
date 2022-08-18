@@ -1,0 +1,23 @@
+spring:
+  redis:
+    # Redis 服务器地址
+    host: d9city.net
+    # Redis 服务端口
+    port: 8379
+    # Redis 服务认证密码
+    password: jimy3k0519
+    # Redis 服务默认选择库
+    database: 1
+    # 连接超时时间
+    connect-timeout: 10000ms
+    jedis:
+      # 连接池
+      pool:
+        # 最大连接数
+        max-active: 1024
+        # 最大连接阻塞等等时间，单位是毫秒，默认 1ms
+        max-wait: 10000ms
+        # 最大空闲连接，默认 8
+        max-idle: 200
+        # 最小空闲连接，默认 0
+        min-idle: 5
