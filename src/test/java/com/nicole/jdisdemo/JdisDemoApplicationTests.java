@@ -156,15 +156,15 @@ public class JdisDemoApplicationTests {
         System.out.println("年龄：" + age);
 
         //设置键，值；多条
-        jedis.mset("name", "jimy3k","age","30","sex","男");
+        jedis.mset("name", "jimy3k", "age", "30", "sex", "男");
 
         //删值；
         jedis.del("sex");
 
         //取值；多条
-        List<String> list = jedis.mget("name", "age","sex");
+        List<String> list = jedis.mget("name", "age", "sex");
         System.out.println("多条取值：");
-        for(int j= 0; j < list.size(); j++){
+        for (int j = 0; j < list.size(); j++) {
             System.out.println(list.get(j));
         }
 
@@ -180,25 +180,26 @@ public class JdisDemoApplicationTests {
         System.out.println("用户列表：" + userlist);
 
         //设置Hash 键，值
-        Map<String,String> map = new HashMap<>();
-        map.put("name","jimy3k");
-        map.put("age","32");
-        map.put("addr","深圳");
-        map.put("sex","男");
-        map.put("score","98");
-        jedis.hmset("user3",map);
+        Map<String, String> map = new HashMap<>();
+        map.put("name", "jimy3k");
+        map.put("age", "32");
+        map.put("addr", "深圳");
+        map.put("sex", "男");
+        map.put("score", "98");
+        jedis.hmset("user3", map);
 
         //Hash 取值
-        userlist = jedis.hmget("user3", "name","age","addr","sex","score");
+        userlist = jedis.hmget("user3", "name", "age", "addr", "sex", "score");
         System.out.println("user3：" + userlist);
     }
+
     /**
      * 使用Jedis配置类 键值失效时间单元测试
      **/
     @Test
     public void testExpired() {
         //设置键值时，设置失效时间
-        jedis.setex("code",600,"验证码");
+        jedis.setex("code", 600, "验证码");
 
         try {
             TimeUnit.SECONDS.sleep(10);   //让程序等10秒钟
@@ -211,7 +212,7 @@ public class JdisDemoApplicationTests {
         System.out.println(expiredTime);
 
         //设置已存在键值的失效时间
-        jedis.expire("code",60);
+        jedis.expire("code", 60);
 
         try {
             TimeUnit.SECONDS.sleep(10);   //让程序等10秒钟
@@ -238,7 +239,7 @@ public class JdisDemoApplicationTests {
         byte[] byteUser = SerializeUtil.serialize(user);
 
         //设值
-        jedis.set(SerializeUtil.serialize("user"),byteUser);
+        jedis.set(SerializeUtil.serialize("user"), byteUser);
 
         //取值
         byte[] user1 = jedis.get(SerializeUtil.serialize("user"));
@@ -252,7 +253,7 @@ public class JdisDemoApplicationTests {
     @Test
     public void testTx() {
         Transaction tx = jedis.multi();
-        tx.set("code","1235rt3");
+        tx.set("code", "1235rt3");
 
         //执行事务
         tx.exec();

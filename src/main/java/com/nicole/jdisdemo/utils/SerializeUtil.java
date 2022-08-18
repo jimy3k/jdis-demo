@@ -30,7 +30,7 @@ public class SerializeUtil {
      **/
     public static Object unserialize(byte[] bytes) {
         if (bytes == null) return null;
-        ByteArrayInputStream bais =null;
+        ByteArrayInputStream bais = null;
         try {
             //反序列化
             bais = new ByteArrayInputStream(bytes);

@@ -3,7 +3,7 @@ package com.nicole.jdisdemo.pojo;
 import java.io.Serializable;
 
 public class User implements Serializable {
-    private static  final long seriaVersionUID = 9148937431079191022L;
+    private static final long seriaVersionUID = 9148937431079191022L;
     private Integer id;
     private String username;
     private String password;
