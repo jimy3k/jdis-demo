@@ -164,8 +164,8 @@ public class JdisDemoApplicationTests {
         //取值；多条
         List<String> list = jedis.mget("name", "age", "sex");
         System.out.println("多条取值：");
-        for (int j = 0; j < list.size(); j++) {
-            System.out.println(list.get(j));
+        for (String s : list) {
+            System.out.println(s);
         }
 
 
